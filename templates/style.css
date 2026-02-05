@@ -1,0 +1,214 @@
+/* style.css */
+:root {
+  --primary: #1a73e8;
+  --primary-dark: #1558b0;
+  --bg: #121212;
+  --text: #e0e0e0;
+  --muted: #aaaaaa;
+  --card: #1e1e1e;
+  --success: #16a34a;
+  --error: #dc2626;
+  --shadow: rgba(0,0,0,0.7);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #000;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+header .logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--primary);
+  user-select: none;
+}
+
+header button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.7);
+}
+
+header button:hover {
+  background: var(--primary-dark);
+}
+
+main {
+  max-width: 900px;
+  margin: 60px auto 40px;
+  padding: 0 20px;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--primary-dark);
+  user-select: none;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 650px;
+  margin: 0 auto 40px;
+  line-height: 1.5;
+}
+
+.cta button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 18px 48px;
+  font-size: 1.3rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 800;
+  box-shadow: 0 12px 36px rgba(26,115,232,0.7);
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.cta button:hover {
+  background: var(--primary-dark);
+}
+
+.card {
+  max-width: 480px;
+  margin: 40px auto 0;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+  text-align: left;
+  user-select: none;
+  display: none;
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 1.9rem;
+}
+
+.card p {
+  color: var(--muted);
+  margin-bottom: 26px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.field {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.field label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--text);
+  user-select: text;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1.8px solid #444;
+  font-size: 1.1rem;
+  background: #222;
+  color: var(--text);
+  transition: border-color 0.3s ease;
+  outline-offset: 2px;
+}
+
+.field input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 8px rgba(26,115,232,0.8);
+}
+
+.error {
+  display: none;
+  color: var(--error);
+  font-size: 1rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.submit {
+  width: 100%;
+  margin-top: 10px;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  user-select: none;
+  box-shadow: 0 10px 30px rgba(22,163,74,0.7);
+}
+
+.submit:hover {
+  background: #13832b;
+}
+
+/* Icone validation promo */
+.code-promo-field span {
+  position: absolute;
+  right: 18px;
+  top: 38px;
+  font-size: 1.5rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+footer {
+  margin-top: auto;
+  padding: 35px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .card {
+    padding: 30px 20px;
+  }
+}
